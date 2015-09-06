@@ -791,19 +791,16 @@
                     if (['list', 'enum', 'file'].indexOf(field.type) != -1 && $(this).data('selected')) {
                         var nv = $(this).data('selected');
                         var cv = obj.record[this.name];
+                        if ($.isPlainObject(nv)) {
+                            value_new = nv.id;
+                        }
                         if ($.isArray(nv)) {
                             value_new = [];
                             for (var i in nv) value_new[i] = $.extend(true, {}, nv[i]); // clone array
                         }
-                        if ($.isPlainObject(nv)) {
-                            value_new = $.extend(true, {}, nv); // clone object
-                        }
                         if ($.isArray(cv)) {
                             value_previous = [];
                             for (var i in cv) value_previous[i] = $.extend(true, {}, cv[i]); // clone array
-                        }
-                        if ($.isPlainObject(cv)) {
-                            value_previous = $.extend(true, {}, cv); // clone object
                         }
                     }
                     if (['toggle', 'checkbox'].indexOf(field.type) != -1) {
@@ -905,7 +902,6 @@
                                 var item = field.options.items[i];
                                 if (item.id == tmp_value) {
                                     value = $.extend(true, {}, item);
-                                    obj.record[field.name] = value;
                                     break;
                                 }
                             }
