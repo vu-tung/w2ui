@@ -1651,6 +1651,11 @@
                             message      : this.msgNotJSON,
                             responseText : responseText
                         };
+                    } else if (obj.recid && data.records) {
+                        // convert recids
+                        for (var i = 0; i < data.records.length; i++) {
+                            data.records[i]['recid'] = this.parseField(data.records[r], obj.recid);
+                        }
                     }
                     if (data['status'] == 'error') {
                         obj.error(data['message']);
