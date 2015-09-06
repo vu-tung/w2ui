@@ -1552,8 +1552,8 @@
             var ajaxOptions = {
                 type     : 'POST',
                 url      : url,
-                data     : eventData.postData, 
-                dataType : 'text'  // expected data type from server
+                data     : eventData.postData,
+                dataType : 'json'  // expected data type from server
             };
             if (w2utils.settings.dataType == 'HTTP') {
                 ajaxOptions.data = (typeof ajaxOptions.data == 'object' ? String($.param(ajaxOptions.data, false)).replace(/%5B/g, '[').replace(/%5D/g, ']') : ajaxOptions.data);
