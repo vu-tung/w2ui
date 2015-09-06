@@ -803,6 +803,17 @@
                             for (var i in cv) value_previous[i] = $.extend(true, {}, cv[i]); // clone array
                         }
                     }
+                    if (field.type == 'combo' && value_new != "") {
+                        var i, item;
+                        for (i in field.options.items) {
+                            item = field.options.items[i];
+                            if (item.text.toLowerCase() == value_new.toLowerCase()) {
+                                value_new = item.id;
+                                field.el.value = item.text;
+                                break;
+                            }
+                        }
+                    }
                     if (['toggle', 'checkbox'].indexOf(field.type) != -1) {
                         value_new = ($(this).prop('checked') ? true : false);
                     }
@@ -890,22 +901,22 @@
                     // enums
                     case 'list':
                     case 'combo':
-                        if (field.type == 'list') {
-                            var tmp_value = ($.isPlainObject(value) ? value.id : value);
-                            // normalized options
-                            var items = field.options.items;
-                            if ($.isArray(items) && items.length > 0 && !$.isPlainObject(items[0])) {
-                                field.options.items = w2obj.field.prototype.normMenu(items);
+                        var tmp_value = ($.isPlainObject(value) ? value.id : value);
+                        // normalized options
+                        if (!field.options.items) field.options.items = [];
+                        var items = field.options.items;
+                        if ($.isArray(items) && items.length > 0 && !$.isPlainObject(items[0])) {
+                            field.options.items = w2obj.field.prototype.normMenu(items);
+                        }
+                        // find value from items
+                        for (var i = 0; i < field.options.items.length; i++) {
+                            var item = field.options.items[i];
+                            if (item.id == tmp_value) {
+                                value = $.extend(true, {}, item);
+                                break;
                             }
-                            // find value from items 
-                            for (var i in field.options.items) {
-                                var item = field.options.items[i];
-                                if (item.id == tmp_value) {
-                                    value = $.extend(true, {}, item);
-                                    break;
-                                }
-                            }
-                        } else if (field.type == 'combo' && !$.isPlainObject(value)) {
+                        }
+                        if (field.type == 'combo' && !$.isPlainObject(value)) {
                             field.el.value = value;
                         } else if ($.isPlainObject(value) && typeof value.text != 'undefined') {
                             field.el.value = value.text;
