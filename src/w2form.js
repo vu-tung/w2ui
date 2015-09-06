@@ -369,7 +369,7 @@
                 type     : 'POST',
                 url      : url,
                 data     : eventData.postData, 
-                dataType : 'text'   // expected from server
+                dataType : 'json'   // expected from server
             };
             if (w2utils.settings.dataType == 'HTTP') {
                 ajaxOptions.data = String($.param(ajaxOptions.data, false)).replace(/%5B/g, '[').replace(/%5D/g, ']');
@@ -510,7 +510,7 @@
                     type     : 'POST',
                     url      : url,
                     data     : eventData.postData, 
-                    dataType : 'text',   // expected from server
+                    dataType : 'json',   // expected from server
                     xhr : function() {
                         var xhr = new window.XMLHttpRequest();
                         // upload
